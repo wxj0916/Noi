@@ -20,7 +20,8 @@
         "https://www.coze.cn/home/*",
         "https://chatglm.cn/*",
         "https://www.doubao.com/*",
-        "https://tongyi.aliyun.com/qianwen/*"
+        "https://tongyi.aliyun.com/qianwen/*",
+        "https://www.phind.com/*"
       ],
       "js": ["main.js"],
       "run_at": "document_end",
