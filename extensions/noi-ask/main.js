@@ -309,7 +309,73 @@ class TongyiAsk extends NoiAsk {
     }
   }
 }
+class PhindAsk extends NoiAsk {
+  static name = "phind";
+  static url = "https://www.phind.com";
 
+  // 获取输入框元素
+  static getInputElement() {
+    var inputElementA = document.querySelectorAll(
+      'textarea[placeholder*="Ask anything"], textarea[placeholder*="Ask a followup"], textarea[placeholder*="Send"], textarea[placeholder*="Ask about"]'
+    );
+    return inputElementA[0];
+  }
+
+  // 同步消息到输入框
+  static sync(message) {
+    var inputElement = this.getInputElement();
+    if (inputElement) {
+      // 模拟用户输入
+      const nativeTextareaSetter = Object.getOwnPropertyDescriptor(
+        window.HTMLTextAreaElement.prototype,
+        "value"
+      ).set;
+      nativeTextareaSetter.call(inputElement, message);
+      const inputEvent = new InputEvent("input", {
+        bubbles: true,
+        cancelable: true,
+      });
+      inputElement.dispatchEvent(inputEvent);
+
+      // 聚焦到输入框
+      inputElement.focus();
+    } else {
+      console.error("Input element not found");
+    }
+  }
+
+  // 自动聚焦到输入框
+  static autoFocus() {
+    var inputElement = this.getInputElement();
+    if (inputElement) {
+      inputElement.focus();
+    } else {
+      console.error("Input element not found");
+    }
+  }
+
+  // 查找并点击提交按钮
+  static submit() {
+    var btn = document.querySelector('#__next .mb-3 button[type="submit"]');
+    if (btn) {
+      console.log("Submit button ==>", btn);
+      this.autoClick(btn);
+    } else {
+      console.error("Submit button not found");
+    }
+  }
+
+  // 模拟点击事件
+  static autoClick(button) {
+    button.disabled = false; // 确保按钮可点击
+    const clickEvent = new MouseEvent("click", {
+      bubbles: true,
+      cancelable: true,
+      view: window,
+    });
+    button.dispatchEvent(clickEvent);
+  }
+}
 window.NoiAsk = {
   OpenAIAsk,
   PoeAsk,
@@ -325,4 +391,5 @@ window.NoiAsk = {
   DoubaoAsk,
   ChatGMLAsk,
   TongyiAsk,
+  PhindAsk,
 };
